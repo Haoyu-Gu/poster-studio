@@ -1,0 +1,89 @@
+/* PosterKit: standalone print canvas; no CDN or runtime JavaScript. */
+:root {
+  --u: 1.6px;
+  --page-w: 841; --page-h: 1189;
+  --accent: #633a91; --accent-deep: #422660;
+  --paper: #faf8fc; --surface: #ffffff; --soft: #f6f6f7;
+  --ink: #24212a; --muted: #605b69; --line: #cfc6da;
+  --sans: "Helvetica Neue", Arial, sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  --fs-title: calc(25 * var(--u)); --fs-subtitle: calc(13 * var(--u));
+  --fs-heading: calc(12 * var(--u)); --fs-number: calc(15 * var(--u));
+  --fs-body: calc(9 * var(--u)); --fs-small: calc(7 * var(--u));
+  --fs-author: calc(9 * var(--u)); --fs-metric: calc(19 * var(--u));
+  --pad: calc(25 * var(--u)); --gap: calc(10 * var(--u));
+  --qr: calc(55 * var(--u)); --qr-optical: calc(52 * var(--u));
+}
+* {box-sizing: border-box;}
+html, body {margin: 0; padding: 0;}
+body {background: #e8e8ec; color: var(--ink); font-family: var(--sans);}
+.poster {
+  width: calc(var(--page-w) * var(--u)); height: calc(var(--page-h) * var(--u));
+  margin: 20px auto; padding: var(--pad); background: var(--paper);
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto; gap: var(--gap); position: relative;
+}
+h1, h2, h3, p, figure {margin: 0;}
+h1, h2, h3 {line-height: 1.12;}
+p, li {font-size: var(--fs-body); line-height: 1.35; text-wrap: pretty;}
+ul {margin: 0; padding-left: calc(12 * var(--u));}
+a {color: inherit; text-decoration: none;}
+img {display: block; max-width: 100%; height: auto;}
+header {border-bottom: calc(.7 * var(--u)) solid var(--accent); padding-bottom: calc(10 * var(--u));}
+.title-line {display: flex; flex-wrap: wrap; gap: calc(8 * var(--u)); align-items: baseline;}
+h1 {font-size: var(--fs-title); color: var(--accent); letter-spacing: -.025em;}
+.subtitle {font-size: var(--fs-subtitle); font-weight: 700; text-wrap: balance;}
+.identity-row {margin-top: calc(10 * var(--u)); display: flex; gap: var(--gap); align-items: center;}
+.byline {flex: 1; min-width: 0;}
+.authors {font-size: var(--fs-author); font-weight: 600;}
+.affiliations {font-size: var(--fs-small); margin-top: calc(3 * var(--u));}
+.logo-row {display: flex; gap: calc(6 * var(--u)); align-items: center;}
+.logo-slot {width: calc(43 * var(--u)); height: calc(43 * var(--u)); object-fit: contain;}
+.white-blend {mix-blend-mode: multiply;}
+.body-stack {display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); min-height: 0;}
+.story {grid-template-rows: 1fr 1.05fr 1.45fr 1.05fr 1fr;}
+.card {min-width: 0; min-height: 0; padding: calc(12 * var(--u)); background: var(--surface); color: var(--ink); border: calc(.5 * var(--u)) solid var(--line); display: flex; flex-direction: column; gap: calc(7 * var(--u));}
+.section-title {display: flex; gap: calc(7 * var(--u)); align-items: baseline; color: var(--accent); font-size: var(--fs-heading);}
+.num {font-size: var(--fs-number); font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap;}
+.lead {font-family: var(--serif); font-size: var(--fs-subtitle); line-height: 1.25; text-wrap: pretty;}
+.tracks {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap);}
+.track {min-width: 0; display: flex; flex-direction: column; gap: calc(5 * var(--u));}
+.track h3, .mechanism h3 {font-size: var(--fs-body); color: var(--accent-deep);}
+.figure {flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: calc(4 * var(--u));}
+.figure img {width: 100%; min-height: 0; object-fit: contain; flex: 1;}
+.caption {font-size: var(--fs-small); color: var(--muted); line-height: 1.2;}
+.result-summary {font-size: var(--fs-body);}
+.metrics {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); flex: 1; min-height: 0;}
+.metric {background: var(--soft); color: var(--ink); border-top: calc(.8 * var(--u)) solid var(--accent); padding: calc(7 * var(--u)); display: flex; flex-direction: column; justify-content: center; gap: calc(4 * var(--u));}
+.metric h3 {font-size: var(--fs-heading); color: var(--accent-deep);}
+.value {font-size: var(--fs-metric); font-weight: 750; color: var(--accent); white-space: nowrap;}
+.metric p {font-size: var(--fs-small);}
+.two-col {display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); min-height: 0;}
+.column {display: grid; grid-template-rows: 1fr 1.2fr 1fr; gap: var(--gap); min-height: 0;}
+.two-col .tracks, .two-col .metrics {grid-template-columns: minmax(0, 1fr);}
+.two-col .metric {padding: calc(6 * var(--u));}
+.hero-layout {display: grid; grid-template-rows: .65fr 1.7fr 1.05fr 1fr; gap: var(--gap); min-height: 0;}
+.hero-card {background: var(--accent-deep); color: var(--surface); border-color: var(--accent-deep);}
+.hero-card .section-title {color: var(--surface);}
+.hero-card .caption {color: var(--surface);}
+.lower-grid {display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--gap); min-height: 0;}
+.lower-grid .column {grid-template-rows: minmax(0, 1fr);}
+footer {border-top: calc(.7 * var(--u)) solid var(--accent); padding-top: calc(10 * var(--u)); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--gap); align-items: center;}
+.presenter {display: flex; flex-direction: column; gap: calc(4 * var(--u)); min-width: 0;}
+.presenter h3 {font-size: var(--fs-heading);}
+.presenter p {font-size: var(--fs-small);}
+.qr-row {display: flex; align-items: center; gap: calc(5 * var(--u));}
+.qr-block {display: flex; flex-direction: column; align-items: center; gap: calc(3 * var(--u)); width: calc(59 * var(--u));}
+.qr-slot {height: var(--qr); width: var(--qr); display: grid; place-items: center;}
+.qr-slot img {height: var(--qr); width: var(--qr); object-fit: contain;}
+.qr-block.optical-small img {height: var(--qr-optical); width: var(--qr-optical);}
+.qr-label {font-size: var(--fs-small); font-weight: 650; text-align: center; text-wrap: balance; line-height: 1.15;}
+.corner-sig {position: absolute; right: calc(8 * var(--u)); bottom: calc(8 * var(--u)); font-size: calc(3 * var(--u)); color: var(--muted);}
+.tt-none {text-transform: none;}
+@page {size: 841mm 1189mm; margin: 0;}
+@media print {
+  :root {--u: 1mm;}
+  html, body {width: 841mm; height: 1189mm; background: var(--paper);}
+  .poster {margin: 0; box-shadow: none;}
+  * {-webkit-print-color-adjust: exact; print-color-adjust: exact;}
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <circle cx="80" cy="80" r="74" fill="#f6f6f7" stroke="#cfc6da" stroke-width="3"/>
+  <text x="80" y="75" font-size="22" font-family="Arial,sans-serif" fill="#605b69" text-anchor="middle">TODO</text>
+  <text x="80" y="102" font-size="19" font-family="Arial,sans-serif" fill="#605b69" text-anchor="middle">LOGO</text>
+</svg>
