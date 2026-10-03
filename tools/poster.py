@@ -1,4 +1,4 @@
-"""Ordinary local HTML poster tools. No account, CDN, or external rendering service."""
+"""Create, preview, export and package academic posters."""
 from __future__ import annotations
 
 import argparse
